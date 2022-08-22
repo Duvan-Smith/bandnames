@@ -3,6 +3,20 @@ import { useEffect, useState } from "react";
 export const BandList = ({ data }) => {
   const [bands, setBands] = useState(data);
 
+  const changeName = (e, id) => {
+    const newName = e.target.value;
+    setBands((bands) =>
+      bands.map((band) => {
+        if (band.id === id) {
+          band.name = newName;
+        }
+        return band;
+      })
+    );
+  };
+
+  const onPerdioFoco = (id, name) => {};
+
   useEffect(() => {
     setBands(data);
   }, [data]);
@@ -15,7 +29,12 @@ export const BandList = ({ data }) => {
             <button className="btn btn-primary">+1</button>
           </td>
           <td>
-            <input className="form-control" value={band.name} />
+            <input
+              className="form-control"
+              value={band.name}
+              onChange={(e) => changeName(e, band.id)}
+              onBlur={(e) => onPerdioFoco(band.id, band.name)}
+            />
           </td>
           <td>
             <h3> 0 </h3>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export const BandList = ({ data, votar }) => {
+export const BandList = ({ data, votar, borrar }) => {
   const [bands, setBands] = useState(data);
 
   const changeName = (e, id) => {
@@ -42,7 +42,9 @@ export const BandList = ({ data, votar }) => {
             <h3> {band.votes} </h3>
           </td>
           <td>
-            <button className="btn btn-danger">Borrar</button>
+            <button className="btn btn-danger" onClick={() => borrar(band.id)}>
+              Borrar
+            </button>
           </td>
         </tr>
       );

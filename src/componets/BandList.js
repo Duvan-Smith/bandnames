@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export const BandList = ({ data, votar, borrar }) => {
+export const BandList = ({ data, votar, borrar, cambiarNombre }) => {
   const [bands, setBands] = useState(data);
 
   const changeName = (e, id) => {
@@ -15,7 +15,9 @@ export const BandList = ({ data, votar, borrar }) => {
     );
   };
 
-  const onPerdioFoco = (id, name) => {};
+  const onPerdioFoco = (id, nombre) => {
+    cambiarNombre(id, nombre);
+  };
 
   useEffect(() => {
     setBands(data);

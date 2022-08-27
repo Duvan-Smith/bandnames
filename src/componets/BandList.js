@@ -1,7 +1,10 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { SocketContext } from "../context/SocketContext";
 
-export const BandList = ({ data, votar, borrar, cambiarNombre }) => {
-  const [bands, setBands] = useState(data);
+export const BandList = () => {
+  const { socket } = useContext(SocketContext);
+
+  const [bands, setBands] = useState([]);
 
   const changeName = (e, id) => {
     const newName = e.target.value;
@@ -15,13 +18,25 @@ export const BandList = ({ data, votar, borrar, cambiarNombre }) => {
     );
   };
 
+  const votar = (id) => {
+    socket.emit("votar-banda", id);
+  };
+
+  const borrar = (id) => {
+    socket.emit("borrar-banda", id);
+  };
+
   const onPerdioFoco = (id, nombre) => {
-    cambiarNombre(id, nombre);
+    socket.emit("cambiar-nombre-banda", { id, nombre });
   };
 
   useEffect(() => {
-    setBands(data);
-  }, [data]);
+    socket.on("current-bands", (bands) => {
+      setBands(bands);
+    });
+
+    return () => socket.off("current-bands");
+  }, [socket]);
 
   const creatRows = () => {
     return bands.map((band) => {
